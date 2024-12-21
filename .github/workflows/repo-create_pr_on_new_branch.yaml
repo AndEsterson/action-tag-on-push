@@ -9,23 +9,27 @@ jobs:
     runs-on: ubuntu-latest
     if: startsWith(github.ref, 'refs/heads/')
     steps:
+      - name: Install gha-utils
+        run: pip install github-action-utils
       - name: Extract branch name
         id: branch-name
         shell: python
         run: |-
+          import github_action_utils as gha
           ref = "${{ github.ref }}"
-          print("github.ref:", )
+          print("github.ref:", ref)
           ref = ref.replace("refs/heads/", "")
-          print(f"::set-output name=name::{ref}")
           print("branch name:", ref)
+          gha.set_output("name", ref)
       - name: Choose GitHub Token
         id: github-token
         shell: python
         run: |-
+          import github_action_utils as gha
           ghtoken = "${{ secrets.GITHUB_TOKEN }}"
           pat = "${{ secrets.PAT }}"
           final = pat if pat else ghtoken
-          print(f"::set-output name=token::{final}")
+          gha.set_output("token", final)
       - name: Create pull request
         uses: thomaseizinger/create-pull-request@master
         with:
