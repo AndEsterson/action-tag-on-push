@@ -24,7 +24,6 @@ runs:
   steps:
     - name: Fetch tag
       id: tag
-      if: steps.ispr.outputs.ok == 1
       shell: python
       env:
         COMMIT_MESSAGE: ${{ github.event.commits[0].message }}
@@ -32,7 +31,6 @@ runs:
       run: |-
         import os
         import re
-        import json
 
         def set_output(k, v):
           s = f"::set-output name={k}::{v}"
