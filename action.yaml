@@ -24,7 +24,6 @@ runs:
   steps:
     - name: Fetch tag
       id: tag
-      if: steps.ispr.outputs.ok == 1
       shell: python
       env:
         PR_DATA: ${{ github.event.commits[0].message }}
